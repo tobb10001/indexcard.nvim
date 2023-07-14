@@ -38,6 +38,7 @@ function M.hide()
     if win == nil then return end
 
     vim.api.nvim_win_hide(win)
+    win = nil
 end
 
 function M.toggle()
