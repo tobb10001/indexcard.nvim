@@ -2,22 +2,28 @@ local M = {}
 
 -- configuration
 local cards = {
-    {"Create cards by passing the cards option."},
+    { "Create cards by passing the cards option." },
 }
 
 -- runtime vars
 local buffer = nil
+local current = 1
 local win = nil
 
-function set_buffer()
-    buffer = vim.api.nvim_create_buf(true, true)
-    vim.api.nvim_buf_set_lines(buffer, 1, 1, false, cards[1])
+-- helpers
+local function set_buffer()
+    if buffer == nil then
+        buffer = vim.api.nvim_create_buf(true, true)
+    end
+    vim.api.nvim_buf_set_lines(buffer, 0, -1, false, cards[current])
 end
 
+-- interface
 function M.show()
     if win ~= nil then return end
 
     if buffer == nil then
+        current = 1
         set_buffer()
     end
 
@@ -49,10 +55,36 @@ function M.toggle()
     end
 end
 
+function M.next()
+    if win == nil then return end
+    current = current + 1
+    if current > #cards then
+        current = 1
+    end
+    set_buffer()
+end
+
+function M.prev()
+    if win == nil then return end
+    current = current - 1
+    if current <= 0 then
+        current = #cards
+    end
+    set_buffer()
+end
+
 function M.setup(opts)
     if opts.cards ~= nil then
         cards = opts.cards
     end
+
+    vim.api.nvim_create_autocmd("WinClosed", {
+        callback = function(ev)
+            if tonumber(ev.match) == win then
+                win = nil
+            end
+        end
+    })
 end
 
 return M

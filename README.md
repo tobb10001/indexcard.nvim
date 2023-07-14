@@ -26,12 +26,12 @@ require("indexcard").setup({
 | -------- | ------------ | -------------------------------------------------------------- |
 | `cards`  | `string[][]` | Cards to configure. Every card is a table of individual lines. |
 
-_Note:_ Multiple cards aren't supported yet.
-
 ## Usage
 
 ```vim
 :lua require("indexcard").show()
 :lua require("indexcard").hide()
 :lua require("indexcard").toggle()
+:lua require("indexcard").next()
+:lua require("indexcard").prev()
 ```
