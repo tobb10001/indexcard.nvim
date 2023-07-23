@@ -16,8 +16,13 @@ remember what you wanted to learn.
 ```lua
 require("indexcard").setup({
     cards = {
-        { "This is a card." },
-        { "dd - delete line under cursor" },
+        {
+            "This is a card.",
+            "dd - delete line under cursor",
+        },
+        {
+            "This is another card.",
+        },
     },
 })
 ```
